@@ -6,7 +6,7 @@ import kr.ac.kookmin.cs.cloud.spotinstance.action.impl.PeriodicPriceChecker;
 public class PriceChecker {
 
     public static void main(String[] args) {
-        Action getPriceAction = new PeriodicPriceChecker(30, 30, 1);
+        Action getPriceAction = new PeriodicPriceChecker();
         getPriceAction.Start();
     }
 }

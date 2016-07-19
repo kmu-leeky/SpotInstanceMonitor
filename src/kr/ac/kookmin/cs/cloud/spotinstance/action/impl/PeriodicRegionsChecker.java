@@ -27,7 +27,7 @@ public class PeriodicRegionsChecker extends PeriodicAction {
                 for (Region region : drs.getRegions()) {
                     ec2Client.setEndpoint(region.getEndpoint());
                     System.out.println("region: " + region.getRegionName());
-                    regionsEndpoint.add(region.getEndpoint());
+                    tempRegions.add(region.getEndpoint());
                 }
 
                 regionsEndpoint = tempRegions;
