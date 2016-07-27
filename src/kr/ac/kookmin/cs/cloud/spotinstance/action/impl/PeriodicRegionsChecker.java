@@ -13,24 +13,24 @@ import kr.ac.kookmin.cs.cloud.spotinstance.action.PeriodicAction;
 
 public class PeriodicRegionsChecker extends PeriodicAction {
     private AmazonEC2 ec2Client;
-    private volatile Set<String> regionsEndpoint;
+    private volatile Set<Region> regionsEndpoint;
 
     public PeriodicRegionsChecker(int period, int initialDelay, int numberOfThreads) {
         super(period, initialDelay, numberOfThreads);
         ec2Client = new AmazonEC2Client();
-        regionsEndpoint = new HashSet<String>();
+        regionsEndpoint = new HashSet<Region>();
         taskToRun = new Runnable() {
             @Override
             public void run() {
-                Set<String> tempRegions = new HashSet<String>();
+                Set<Region> tempRegions = new HashSet<Region>();
                 DescribeRegionsResult drs = ec2Client.describeRegions();
                 for (Region region : drs.getRegions()) {
                     ec2Client.setEndpoint(region.getEndpoint());
-                    System.out.println("region: " + region.getRegionName());
-                    tempRegions.add(region.getEndpoint());
+                    tempRegions.add(region);
                 }
 
                 regionsEndpoint = tempRegions;
+                System.out.println("Done for fill the Regions");
             }
         };
     }
@@ -39,7 +39,7 @@ public class PeriodicRegionsChecker extends PeriodicAction {
         this(3600, 0, 1);
     }
 
-    public Iterator<String> getRegionsEndpoint() {
+    public Iterator<Region> getRegions() {
         return regionsEndpoint.iterator();
     }
 }

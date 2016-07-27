@@ -18,7 +18,7 @@ public class PeriodicAction implements Action {
     protected Runnable taskToRun;
 
     @Override
-    public void Start() {
+    public void start() {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(this.threadPoolCount);
         executor.scheduleAtFixedRate(taskToRun, this.initialDelay, this.period, TimeUnit.SECONDS);
     }
